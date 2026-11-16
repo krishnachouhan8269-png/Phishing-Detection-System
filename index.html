@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Phishing Detection System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1425;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #101f38;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid #263b5c;
+        }
+
+        header h1 {
+            color: #38bdf8;
+            font-size: 28px;
+        }
+
+        header p {
+            margin-top: 10px;
+            color: #aabbd1;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 100px auto;
+            padding: 35px;
+            background: #15243c;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 35px #00000050;
+        }
+
+        .container h2 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .container p {
+            color: #aabbd1;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #405574;
+            border-radius: 8px;
+            background: #0b1425;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0369a1;
+        }
+
+        footer {
+            text-align: center;
+            color: #8293aa;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>PHISHING DETECTION SYSTEM</h1>
+        <p>Cyber Security & Website Protection</p>
+    </header>
+
+    <div class="container">
+
+        <h2>Website URL Scanner</h2>
+
+        <p>
+            Enter a website URL below to check
+            whether it contains suspicious signs.
+        </p>
+
+        <input
+            type="text"
+            id="url"
+            placeholder="Enter Website URL"
+        >
+
+        <button onclick="checkURL()">Analyze URL</button>
+
+<div id="result" style="margin-top:20px;"></div>
+
+    </div>
+
+    <footer>
+        Minor Project | Phishing Detection System
+    </footer>
+<script>
+async function checkURL() {
+    const url = document.getElementById("url").value.trim();
+    const result = document.getElementById("result");
+
+    if (!url) {
+        result.innerHTML = "Please enter a URL";
+        return;
+    }
+
+    result.innerHTML = "Analyzing URL...";
+
+    try {
+        const response = await fetch("/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ url: url })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Analysis failed");
+        }
+
+        result.style.color =
+            data.score >= 50 ? "red" :
+            data.score >= 25 ? "orange" : "lightgreen";
+
+        result.innerHTML = `
+            <h2>${data.risk}</h2>
+            <p>Risk Score: ${data.score}/100</p>
+            <p>${data.reasons.length > 0
+                ? data.reasons.join("<br>")
+                : "No basic warning signs detected"}</p>
+            <p>This is a basic URL check, not a safety guarantee.</p>
+        `;
+
+    } catch (error) {
+        result.style.color = "orange";
+        result.innerHTML = error.message;
+    }
+}
+</script>
+</body>
+</html>

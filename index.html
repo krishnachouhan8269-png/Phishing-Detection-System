@@ -2,173 +2,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHISHX | Phishing Detection System</title>
 
-    <title>Phishing Detection System</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #0b1425;
-            color: white;
-            min-height: 100vh;
-        }
+/* Hamburger Animation */
+.menu-toggle span {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-        header {
-            background: #101f38;
-            padding: 25px;
-            text-align: center;
-            border-bottom: 1px solid #263b5c;
-        }
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
 
-        header h1 {
-            color: #38bdf8;
-            font-size: 28px;
-        }
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
 
-        header p {
-            margin-top: 10px;
-            color: #aabbd1;
-        }
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
 
-        .container {
-            max-width: 650px;
-            margin: 100px auto;
-            padding: 35px;
-            background: #15243c;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 35px #00000050;
-        }
+/* Hamburger Menu */
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
 
-        .container h2 {
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
+.menu-toggle span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin: 5px 0;
+  background: #38bdf8;
+  border-radius: 5px;
+  transition: 0.3s;
+}
 
-        .container p {
-            color: #aabbd1;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
+/* Mobile Navbar */
+@media (max-width: 768px) {
+  nav {
+    position: relative;
+  }
 
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #405574;
-            border-radius: 8px;
-            background: #0b1425;
-            color: white;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+  .menu-toggle {
+    display: block;
+  }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #0284c7;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 17px;
-            cursor: pointer;
-        }
+  .nav-links {
+    display: none;
+    visibility: hidden;
+opacity: 0;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    padding: 20px;
+    background: #050508;
+    border: 1px solid #38bdf8;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 1000;
+  }
 
-        button:hover {
-            background: #0369a1;
-        }
+  .nav-links.active {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
 
-        footer {
-            text-align: center;
-            color: #8293aa;
-            padding: 20px;
-        }
-    </style>
+  .nav-links a {
+    display: block;
+  }
+}
+
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{background:#050508;color:#f5f5fa;font-family:'Poppins',sans-serif}
+:root{--blue:#38bdf8;--rose:#ff2daa;--panel:#101017}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 8%;position:sticky;top:0;background:#050508ed;z-index:10;border-bottom:1px solid #252532}
+.logo{font-family:Orbitron;color:var(--blue);font-size:22px;font-weight:800}
+nav a{color:#ddd;text-decoration:none;margin-left:22px;font-size:13px}
+nav a:hover{color:var(--rose)}
+section{padding:90px 9%;scroll-margin-top:70px}
+.hero{text-align:center;min-height:570px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tag{color:var(--rose);letter-spacing:4px;font-size:12px}
+h1,h2,h3{font-family:Orbitron}
+h1{font-size:clamp(35px,6vw,66px);margin:22px 0}
+h1 span,h2 span{color:var(--blue);text-shadow:0 0 20px #38bdf855}
+p{color:#aaa;line-height:1.8}
+.btn{display:inline-block;padding:14px 28px;border:1px solid var(--blue);color:var(--blue);text-decoration:none;border-radius:6px;margin-top:25px;background:#38bdf810;cursor:pointer}
+.btn:hover{background:var(--blue);color:#050508}
+.heading{text-align:center;margin-bottom:42px}
+.heading h2{font-size:clamp(25px,4vw,38px);margin-bottom:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:var(--panel);border:1px solid #292936;padding:27px;border-radius:12px;transition:.3s}
+.card:hover{border-color:var(--rose);transform:translateY(-5px);box-shadow:0 0 22px #ff2daa20}
+.card h3{font-size:16px;color:var(--blue);margin-bottom:13px}
+.card p{font-size:13px}
+.scanner{max-width:700px;margin:auto;background:var(--panel);padding:32px;border:1px solid #343444;border-radius:14px}
+input{width:100%;padding:16px;background:#07070c;border:1px solid #343444;color:white;border-radius:6px;margin:20px 0;font:inherit}
+input:focus{outline:1px solid var(--blue)}
+button{font:inherit}
+#result{margin-top:25px;padding:20px;border-radius:8px;background:#08080e;display:none}
+#result h3{margin-bottom:10px}
+#result p{margin:5px 0}
+.member{border-top:2px solid var(--rose)}
+.member h3{color:var(--rose)}
+.member .role{color:var(--blue);font-size:12px;margin-bottom:14px}
+footer{text-align:center;padding:30px;border-top:1px solid #252532;color:#777;font-size:12px}
+@media(max-width:650px){nav{flex-wrap:wrap;gap:15px}nav div:last-child{display:flex;flex-wrap:wrap;gap:12px}nav a{margin:0;font-size:11px}section{padding:65px 6%}}
+</style>
 </head>
 
 <body>
 
-    <header>
-        <h1>PHISHING DETECTION SYSTEM</h1>
-        <p>Cyber Security & Website Protection</p>
-    </header>
+<nav>
+  <div class="logo">PHISHX.</div>
 
-    <div class="container">
+  <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-        <h2>Website URL Scanner</h2>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#scanner">SCANNER</a>
+    <a href="#features">FEATURES</a>
+    <a href="#team">TEAM</a>
+  </div>
+</nav>
 
-        <p>
-            Enter a website URL below to check
-            whether it contains suspicious signs.
-        </p>
 
-        <input
-            type="text"
-            id="url"
-            placeholder="Enter Website URL"
-        >
+<section class="hero" id="home">
+ <div class="tag">CYBER SECURITY • WEB PROTECTION</div>
+ <h1>DETECT THE <span>THREAT.</span><br>PROTECT YOUR DIGITAL WORLD.</h1>
+ <p>A rule-based phishing URL detection system designed to identify suspicious URL characteristics and help users make safer browsing decisions.</p>
+ <a class="btn" href="#scanner">ANALYZE A URL ↗</a>
+</section>
 
-        <button onclick="checkURL()">Analyze URL</button>
+<section id="about">
+ <div class="heading">
+  <h2>ABOUT THE <span>PROJECT</span></h2>
+  <p>Understanding and identifying suspicious website URLs.</p>
+ </div>
+ <div class="card">
+  <h3>PROJECT OVERVIEW</h3>
+  <p>Phishing Detection System is a web-based project that analyzes URL characteristics using predefined security rules. It assigns a risk score based on selected indicators such as missing HTTPS, IP-based domains, suspicious URL structure and URL length. It helps users understand potential URL risks.</p>
+ </div>
+</section>
 
-<div id="result" style="margin-top:20px;"></div>
+<section id="features">
+ <div class="heading">
+  <h2>SYSTEM <span>FEATURES</span></h2>
+  <p>Key capabilities of our detection system.</p>
+ </div>
+ <div class="cards">
+  <div class="card"><h3>01 / URL ANALYSIS</h3><p>Analyzes URL structure and selected characteristics.</p></div>
+  <div class="card"><h3>02 / RISK SCORING</h3><p>Calculates a risk score using predefined rules.</p></div>
+  <div class="card"><h3>03 / HTTPS CHECK</h3><p>Checks whether the URL uses HTTPS.</p></div>
+  <div class="card"><h3>04 / IP DETECTION</h3><p>Identifies URLs that use an IP address as the hostname.</p></div>
+ </div>
+</section>
 
-    </div>
+<section id="scanner">
+ <div class="heading">
+  <h2>URL <span>SCANNER</span></h2>
+  <p>Enter a URL to analyze its risk indicators.</p>
+ </div>
+ <div class="scanner">
+  <h3>ANALYZE WEBSITE URL</h3>
+  <input type="text" id="urlInput" placeholder="https://example.com">
+  <button class="btn" onclick="analyzeURL()">ANALYZE URL ↗</button>
+  <div id="result">
+   <h3 id="risk"></h3>
+   <p id="score"></p>
+   <div id="reasons"></div>
+   <p style="margin-top:12px;font-size:11px">This result is a rule-based estimate, not a guarantee that a website is safe or malicious.</p>
+  </div>
+ </div>
+</section>
 
-    <footer>
-        Minor Project | Phishing Detection System
-    </footer>
+<section id="how">
+ <div class="heading">
+  <h2>HOW IT <span>WORKS</span></h2>
+ </div>
+ <div class="cards">
+  <div class="card"><h3>STEP 01</h3><p>User enters a website URL.</p></div>
+  <div class="card"><h3>STEP 02</h3><p>Frontend sends the URL to the Flask backend.</p></div>
+  <div class="card"><h3>STEP 03</h3><p>Python checks URL characteristics and calculates a score.</p></div>
+  <div class="card"><h3>STEP 04</h3><p>Risk category, score and detected reasons are displayed.</p></div>
+ </div>
+</section>
+
+<section id="team">
+ <div class="heading">
+  <h2>MEET OUR <span>TEAM</span></h2>
+  <p>People and responsibilities behind this project.</p>
+ </div>
+ <div class="cards">
+  <div class="card member">
+   <h3>KRISHNA CHOUHAN</h3>
+   <div class="role">PROJECT LEAD & FULL-STACK DEVELOPER</div>
+   <p>Overall development, frontend and backend integration, detection system implementation, GitHub and deployment.</p>
+  </div>
+  <div class="card member">
+   <h3>SALONI VERMA</h3>
+   <div class="role">RESEARCH & DOCUMENTATION</div>
+   <p>Phishing research, project documentation, report preparation and presentation material.</p>
+  </div>
+  <div class="card member">
+   <h3>VARTIKA NIGAM</h3>
+   <div class="role">TESTING & QUALITY ASSURANCE</div>
+   <p>Test case planning, checking detection results, identifying errors and suggesting improvements.</p>
+  </div>
+  <div class="card member">
+   <h3>MAYUR CARPENTER</h3>
+   <div class="role">SECURITY ANALYSIS & TECHNICAL SUPPORT</div>
+   <p>Studying URL risk indicators, phishing techniques and supporting technical analysis.</p>
+  </div>
+ </div>
+</section>
+
+<footer>PHISHX — PHISHING DETECTION SYSTEM | ACADEMIC PROJECT</footer>
+
 <script>
-async function checkURL() {
-    const url = document.getElementById("url").value.trim();
-    const result = document.getElementById("result");
+async function analyzeURL(){
+ const url=document.getElementById("urlInput").value.trim();
+ const result=document.getElementById("result");
+ const risk=document.getElementById("risk");
+ const score=document.getElementById("score");
+ const reasons=document.getElementById("reasons");
 
-    if (!url) {
-        result.innerHTML = "Please enter a URL";
-        return;
-    }
+ if(!url){alert("Please enter a URL");return;}
 
-    result.innerHTML = "Analyzing URL...";
+ result.style.display="block";
+ risk.textContent="ANALYZING...";
+ score.textContent="";
+ reasons.textContent="";
 
-    try {
-        const response = await fetch("/analyze", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ url: url })
-        });
+ try{
+  const response=await fetch("/analyze",{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({url:url})
+  });
+  const data=await response.json();
+  if(!response.ok || data.error)throw new Error(data.error||"Analysis failed");
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || "Analysis failed");
-        }
-
-        result.style.color =
-            data.score >= 50 ? "red" :
-            data.score >= 25 ? "orange" : "lightgreen";
-
-        result.innerHTML = `
-            <h2>${data.risk}</h2>
-            <p>Risk Score: ${data.score}/100</p>
-            <p>${data.reasons.length > 0
-                ? data.reasons.join("<br>")
-                : "No basic warning signs detected"}</p>
-            <p>This is a basic URL check, not a safety guarantee.</p>
-        `;
-
-    } catch (error) {
-        result.style.color = "orange";
-        result.innerHTML = error.message;
-    }
+  risk.textContent=data.risk;
+  score.textContent="RISK SCORE: "+data.score+"/100";
+  reasons.textContent=data.reasons.length
+   ?"Detected indicators: "+data.reasons.join(", ")
+   :"No configured risk indicators detected.";
+ }catch(error){
+  risk.textContent="ERROR";
+  score.textContent="Could not analyze this URL.";
+  reasons.textContent=error.message;
+ }
 }
 </script>
+
+
+<script>
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.onclick = function () {
+    navLinks.classList.toggle("active");
+   menuToggle.classList.toggle("active"); 
+};
+
+navLinks.querySelectorAll("a").forEach(function(link) {
+    link.onclick = function () {
+        navLinks.classList.remove("active");
+       menuToggle.classList.remove("active"); 
+    };
+});
+</script>
+
+
 </body>
 </html>
